@@ -24,9 +24,11 @@
   },
   "homepage": "https://github.com/marigrassi17/introducaoNode#readme",
   "dependencies": {
+    "controllers": "^0.0.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "mysql2": "^3.11.0"
+    "mysql2": "^3.11.0",
+    "routes": "^2.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
