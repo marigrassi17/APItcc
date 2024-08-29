@@ -7,6 +7,9 @@ const MedicosController = require('../controllers/medicos');
 const MensagensController = require('../controllers/mensagens'); 
 const TelefoneController = require('../controllers/telefone'); 
 const AgendaController = require('../controllers/agenda'); 
+const IndisponibilidadeController = require('../controllers/indis'); 
+const DisponibilidadeController = require('../controllers/disponibilidade'); 
+const EspecialidadesController = require('../controllers/especialidades'); 
 
 
 // definição das rotas
@@ -33,12 +36,25 @@ router.delete('/telefone', TelefoneController.apagarTelefone);
 router.get('/agenda', AgendaController.listarAgenda); 
 router.post('/agenda', AgendaController.cadastrarAgenda); 
 router.patch('/agenda', AgendaController.editarAgenda); 
-router.delete('/agenda', AgendaController.apagarAgenda); 
+router.delete('/agenda', AgendaController.apagarAgenda);
 
-router.get('/agenda', AgendaController.listarAgenda); 
-router.post('/agenda', AgendaController.cadastrarAgenda); 
-router.patch('/agenda', AgendaController.editarAgenda); 
-router.delete('/agenda', AgendaController.apagarAgenda); 
+router.get('/indis', IndisponibilidadeController.listarIndisponibilidade); 
+router.post('/indis', IndisponibilidadeController.cadastrarIndisponibilidade); 
+router.patch('/indis', IndisponibilidadeController.editarIndisponibilidade); 
+router.delete('/indis', IndisponibilidadeController.apagarIndisponibilidade); 
+
+router.get('/disponibilidade', DisponibilidadeController.listarDisponibilidade); 
+router.post('/disponibilidade', DisponibilidadeController.cadastrarDisponibilidade); 
+router.patch('/disponibilidade', DisponibilidadeController.editarDisponibilidade); 
+router.delete('/disponibilidade', DisponibilidadeController.apagarDisponibilidade); 
+
+router.get('/especialidades', EspecialidadesController.listarEspecialidades); 
+router.post('/especialidades', EspecialidadesController.cadastrarEspecialidades); 
+router.patch('/especialidades', EspecialidadesController.editarEspecialidades); 
+router.delete('/especialidades', EspecialidadesController.apagarEspecialidades); 
+
+
+
 
 
 

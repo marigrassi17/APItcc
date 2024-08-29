@@ -1,11 +1,11 @@
 const db = require('../database/connection'); 
 
 module.exports = {
-    async listarIndisponibilidade(request, response) {
+    async listarEspecialidades(request, response) {
         try {            
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Lista de Indisponibilidade.', 
+                mensagem: 'Lista de Especialidades.', 
                 dados: null
             });
         } catch (error) {
@@ -17,11 +17,11 @@ module.exports = {
         }
     }, 
 
-    async cadastrarIndisponibilidade(request, response) {
+    async cadastrarEspecialidades(request, response) {
         try {            
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Cadastrar Indisponibilidade.', 
+                mensagem: 'Cadastrar Especialidades.', 
                 dados: null
             });
         } catch (error) {
@@ -33,11 +33,11 @@ module.exports = {
         }
     }, 
 
-    async editarIndisponibilidade(request, response) {
+    async editarEspecialidades(request, response) {
         try {            
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Editar Indisponibilidade.', 
+                mensagem: 'Editar Especialidades', 
                 dados: null
             });
         } catch (error) {
@@ -49,11 +49,11 @@ module.exports = {
         }
     }, 
 
-    async apagarIndisponibilidade(request, response) {
+    async apagarEspecialidades(request, response) {
         try {            
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar Indisponibilidade.', 
+                mensagem: 'Apagar Especialidades.', 
                 dados: null
             });
         } catch (error) {
