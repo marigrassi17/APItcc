@@ -24,7 +24,7 @@ DROP TABLE clientes;
 DROP TABLE usuarios;
 DROP TABLE ingredientes; 
 
--- DESCRIBE DE TODAS AS TABELAS
+-- DESCRIBE DE TODAS AS TABELAS 
 DESCRIBE pedido_produtos;
 DESCRIBE produtos;
 DESCRIBE produto_tipos;
