@@ -4,12 +4,12 @@ module.exports = {
     async listarMensagens(request, response) {
         try {            
             // instruçoês SQL 
-            const sql = ` SELECT
+            const sql = `SELECT
               men_cod, men_texto, men_data, usu_cod,
-              agd_cod, men_visualizada
-              FROM usuarios;` ;
+              agd_cod, men_visualizada = 1 AS men_visualizada
+              FROM mensagens;`;
               // Executa instruçoes SQL e armazena o resultado na variavel usuarios
-              const usuarios = await db. query(sql);
+              const mensagens = await db. query(sql);
 
             return response.status(200).json({
                 sucesso: true, 
