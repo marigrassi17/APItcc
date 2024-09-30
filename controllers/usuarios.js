@@ -24,7 +24,9 @@ module.exports = {
     }, 
 
     async cadastrarUsuarios(request, response) {
-        try {            
+        try {   
+            
+            
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastrar Usuario.', 
