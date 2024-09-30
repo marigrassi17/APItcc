@@ -2,7 +2,14 @@ const db = require('../database/connection');
 
 module.exports = {
     async listarEspecialidades(request, response) {
-        try {            
+        try { 
+
+            const sql = `SELECT 
+             esp_cod, esp_nome FROM Especialidades;
+              `;
+
+            const Especialidades = await db.query(sql);
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de Especialidades.', 
