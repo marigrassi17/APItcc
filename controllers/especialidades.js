@@ -5,15 +5,14 @@ module.exports = {
         try { 
 
             const sql = `SELECT 
-             esp_cod, esp_nome FROM Especialidades;
-              `;
+             esp_cod, esp_nome FROM Especialidades;`;  
 
             const Especialidades = await db.query(sql);
 
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de Especialidades.', 
-                dados: null
+                dados: Especialidades
             });
         } catch (error) {
             return response.status(500).json({
@@ -25,11 +24,19 @@ module.exports = {
     }, 
 
     async cadastrarEspecialidades(request, response) {
-        try {            
+        try {          
+            
+            const {esp_nome} = request.body;
+            const sql = `INSERT INTO Especialidades
+        (esp_nome) VALUES (?)`;
+            const values = [esp_nome];
+            const execSql = await db.query(sql, values);
+            const esp_cod  = execSql[0].insertId 
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastrar Especialidades.', 
-                dados: null
+                dados: esp_cod
             });
         } catch (error) {
             return response.status(500).json({
