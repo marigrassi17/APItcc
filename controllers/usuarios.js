@@ -4,7 +4,7 @@ module.exports = {
     async listarUsuarios(request, response) {
         try {            
             const sql = `SELECT usu_cod, usu_nome, usu_email, 
-                        usu_senha, usu_dt_nasc, usu_cidade, usu_genero 
+                        usu_senha, usu_dt_nasc, usu_cidade, usu_genero usu_ativo = 1 AS usu_ativo
                         FROM Usuarios;`;
                 
             const usuarios = await db.query(sql)    
@@ -26,6 +26,12 @@ module.exports = {
     async cadastrarUsuarios(request, response) {
         try {   
             
+            const {usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero,} = request.body;
+
+            const sql = `INSERT INTO Usuarios 
+                         (usu_cod, usu_nome, usu_email, usu_senha,
+                          usu_dt_nasc, usu_cidade, usu_genero) 
+                          VALUES`;
             
             return response.status(200).json({
                 sucesso: true, 
