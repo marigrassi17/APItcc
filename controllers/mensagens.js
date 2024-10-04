@@ -47,7 +47,7 @@ module.exports = {
 
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Cadastrar mensagens.', 
+                mensagem: 'Cadastro realizado com sucesso.', 
                 dados: men_cod
                 //mensSql: execSql
             });
