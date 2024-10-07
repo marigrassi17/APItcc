@@ -7,8 +7,8 @@ module.exports = {
                 disp_cod, disp_periodo, disp_horario_ini, 
                 disp_horario_fim, disp_dia_semana, med_cod 
                 FROM Disponibilidades;`;
-            const disponibilidade = await db.query(sql);
 
+            const disponibilidade = await db.query(sql);
             
             return response.status(200).json({
                 sucesso: true,
@@ -27,12 +27,22 @@ module.exports = {
     async cadastrarDisponibilidade(request, response) {
         try {
             
+            const { disp_periodo, disp_horario_ini, disp_horario_fim, disp_dia_semana, med_cod } = request.body;
+
             const sql = `INSERT INTO Disponibilidades (disp_periodo,
-                disp_horario_ini, disp_horario_fim, disp_dia_semana, med_cod) VALUES`   
-            return response.status(200).json({
+                disp_horario_ini, disp_horario_fim, disp_dia_semana, med_cod)
+                VALUES (?,?,?,?,?)`;
+                
+            const values =[disp_periodo, disp_horario_ini, disp_horario_fim, disp_dia_semana, med_cod];
+
+            const execSql = await db.query(sql, values);
+
+            const disp_cod = execSql[0].insertId;
+            
+                return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Cadastrar Disponibilidade.', 
-                dados: null
+                mensagem: 'Cadastro realizado com sucesso.', 
+                dados: disp_cod
             });
         } catch (error) {
             return response.status(500).json({
