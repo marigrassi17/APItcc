@@ -54,11 +54,24 @@ module.exports = {
     }, 
 
     async editarDisponibilidade(request, response) {
-        try {            
+        try {
+
+            const { disp_periodo, disp_horario_ini, disp_horario_fim, disp_dia_semana, med_cod } = request.body;
+
+            const { disp_cod } = request.params;
+            
+            const sql = `UPDATE Disponibilidades set disp_periodo = ?,
+                disp_horario_ini = ?, disp_horario_fim = ?, disp_dia_semana = ?, med_cod = ?
+                WHERE disp_cod = ?;`;
+
+            const values =[disp_periodo, disp_horario_ini, disp_horario_fim, disp_dia_semana, med_cod, disp_cod];
+
+            const atualizaDados = await db.query(sql, values);
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Editar Disponibilidade.', 
-                dados: null
+                mensagem: `Disponibilidade ${disp_cod} atualizado com sucesso!`, 
+                dados: atualizaDados[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
@@ -70,11 +83,20 @@ module.exports = {
     }, 
 
     async apagarDisponibilidade(request, response) {
-        try {            
+        try {
+            
+            const { disp_cod } = request.params;
+
+            const sql = `DELETE FROM disponibilidade WHERE disp_cod = ?`;
+
+            const values = [ disp_cod ];
+
+            const excluir = await db.query(sql, values);
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar Disponibilidade.', 
-                dados: null
+                mensagem: `Disponibilidade ${disp_cod} excluido com sucesso`, 
+                dados: excluir[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
