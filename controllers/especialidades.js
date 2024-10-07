@@ -48,7 +48,11 @@ module.exports = {
     }, 
 
     async editarEspecialidades(request, response) {
-        try {            
+        try {     
+            
+            const { esp_nome} = request.body;
+            const {esp_cod} = request.params;
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Editar Especialidades', 
