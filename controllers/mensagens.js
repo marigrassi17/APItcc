@@ -14,7 +14,7 @@ module.exports = {
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de mensagens.', 
-                dados: mensagens
+                dados: mensagens[0]
             });
         } catch (error) {
             return response.status(500).json({
@@ -63,12 +63,32 @@ module.exports = {
     }, 
 
     async editarMensagens(request, response) {
-        try {            
+        try {        
+         // parametros recebidos pelo corpo na requisiçao 
+         const {men_texto, men_data, usu_cod,
+            agd_cod, men_visualizada} = request.body;
+
+        // parametro recebido pela URL via params ex: /mensagens/1
+        const { men_cod } = request.params;
+
+        //instruçoes SQL 
+        const sql = `UPDATE mensagens SET men_texto = ?, 
+                     men_data = ?, usu_cod = ?, agd_cod = ?, men_visualizada = ? WHERE men_cod = ? ;`;
+        
+        // preparo do array com dados que serão atualizados 
+        const values = [men_texto, men_data, usu_cod,
+                       agd_cod, men_visualizada];
+
+        // execuçao e obtençao de confirmaçao da atualizaçao realizada
+        const atualizaDados = await db.query(sql, values);
+    
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Editar mensagens', 
-                dados: null
+                mensagem: `Usuario ${men_cod} atualizado com sucesso!`,
+                dados: atualizaDados [0].affectedRows
             });
+
         } catch (error) {
             return response.status(500).json({
                 sucesso: false,
