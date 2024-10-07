@@ -2,11 +2,18 @@ const db = require('../database/connection');
 
 module.exports = {
     async listarDisponibilidade(request, response) {
-        try {            
+        try {
+            const sql = `SELECT
+                disp_cod, disp_periodo, disp_horario_ini, 
+                disp_horario_fim, disp_dia_semana, med_cod 
+                FROM Disponibilidades;`;
+            const disponibilidade = await db.query(sql);
+
+            
             return response.status(200).json({
-                sucesso: true, 
-                mensagem: 'Lista de Disponibilidade.', 
-                dados: null
+                sucesso: true,
+                mensagem: 'Lista de usuarios.',
+                dados: disponibilidade
             });
         } catch (error) {
             return response.status(500).json({
@@ -18,7 +25,10 @@ module.exports = {
     }, 
 
     async cadastrarDisponibilidade(request, response) {
-        try {            
+        try {
+            
+            const sql = `INSERT INTO Disponibilidades (disp_periodo,
+                disp_horario_ini, disp_horario_fim, disp_dia_semana, med_cod) VALUES`   
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastrar Disponibilidade.', 
