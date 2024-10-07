@@ -87,7 +87,7 @@ module.exports = {
             
             const { disp_cod } = request.params;
 
-            const sql = `DELETE FROM disponibilidade WHERE disp_cod = ?`;
+            const sql = `DELETE FROM Disponibilidades WHERE disp_cod = ?`;
 
             const values = [ disp_cod ];
 
