@@ -4,7 +4,8 @@ module.exports = {
     async listarUsuarios(request, response) {
         try {            
             const sql = `SELECT usu_cod, usu_nome, usu_email, 
-                        usu_senha, usu_dt_nasc, usu_cidade, usu_genero
+                        usu_senha, usu_dt_nasc, usu_cidade, usu_genero = 1 AS 
+                        usu_genero
                         FROM Usuarios;`;
                 
             const usuarios = await db.query(sql)    
@@ -12,7 +13,7 @@ module.exports = {
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de usuários.', 
-                dados: usuarios
+                dados: usuarios[0]
             });
         } catch (error) {
             return response.status(500).json({
@@ -29,11 +30,11 @@ module.exports = {
             const {usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero} = request.body;
 
             const sql = `INSERT INTO Usuarios 
-                         (usu_cod, usu_nome, usu_email, usu_senha,
+                         (usu_nome, usu_email, usu_senha,
                           usu_dt_nasc, usu_cidade, usu_genero) 
                           VALUES (?,?,?,?,?,?)`;
 
-            const values = [usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero,]              
+            const values = [usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero,];             
             
             const execSql = await db.query(sql,values);
 
@@ -54,11 +55,21 @@ module.exports = {
     }, 
 
     async editarUsuarios(request, response) {
-        try {            
+        try {
+
+            const {usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero} = request.body;
+            const {usu_cod} = request.params;
+            const sql = `UPDATE Usuarios SET usu_nome = ?, usu_email = ?, 
+                         usu_senha = ?, usu_dt_nasc = ?, usu_cidade = ?, 
+                         usu_genero = ? WHERE usu_cod = ?;`;
+
+            const values = [usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero, usu_cod];
+            const atualizaDados = await db.query(sql, values);             
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Editar Usuario', 
-                dados: null
+                mensagem: `Usuario ${usu_cod} atualizado com sucesso!`, 
+                dados: atualizaDados[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
@@ -71,6 +82,9 @@ module.exports = {
 
     async apagarUsuarios(request, response) {
         try {            
+
+            const {usu_cod} = request.body;
+            const sql = `DELETE FROM usuarios WHERE usu_cod = ?;`;
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Apagar usuarios.', 
