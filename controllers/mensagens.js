@@ -5,7 +5,7 @@ module.exports = {
         try {       
             
              // instruçoês SQL 
-             const sql = ` SELECT
+             const sql = ` SELECT men_cod, men_texto, men_data, usu_cod,
                agd_cod, men_visualizada = 1 AS men_visualizada
                FROM mensagens;`;
 
@@ -15,7 +15,7 @@ module.exports = {
                return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de mensagens.', 
-                dados: mensagens
+                dados: mensagens[0]
             });
         } catch (error) {
             return response.status(500).json({
@@ -32,7 +32,7 @@ module.exports = {
          const {men_texto, men_data, usu_cod, agd_cod, men_visualizada} = request.body;
 
          // instruçao SQL
-         const sql = `INSERT INTO mensagens
+         const sql = `INSERT INTO Mensagens
             (men_texto, men_data, usu_cod, agd_cod, men_visualizada)
              VALUES (?,?,?,?,?)`;
 
@@ -96,11 +96,23 @@ module.exports = {
     }, 
 
     async apagarMensagens(request, response) {
-        try {            
+        try {         
+        // parametro passado via url na chamada da api pelo front-end
+        const { men_cod } = request.params;
+        
+        //comando de excluçao 
+        const sql = `DELETE FROM mensagens WHERE men_cod = ?;`;
+
+        // array com parametros da excluçao
+        const values = [men_cod];
+
+        // executa instruçao no bando de dados 
+        const excluir = await db.query (sql, values);
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar mensagens.', 
-                dados: null
+                mensagem: `Mensagens ${men_cod} apagada com sucesso`, 
+                dados: excluir[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
