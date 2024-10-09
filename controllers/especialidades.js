@@ -52,11 +52,15 @@ module.exports = {
             
             const { esp_nome} = request.body;
             const {esp_cod} = request.params;
+            const sql = `UPDATE Especialidades SET esp_nome = ? WHERE esp_cod = ?;`;
+            const values = [esp_nome, esp_cod]
+            const atualizaDados = await db.query(sql, values);
+
 
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Editar Especialidades', 
-                dados: null
+                mensagem: `Especialidade ${esp_cod} atualizada com sucesso!`, 
+                dados: atualizaDados[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
@@ -68,11 +72,16 @@ module.exports = {
     }, 
 
     async apagarEspecialidades(request, response) {
-        try {            
+        try {   
+            const {esp_cod} = resquest.params;
+            const sql = `DELETE FROM Especialidades WHERE esp_cod = ?`;
+            const values = [esp_cod];
+            const excluir = await db.query(sql, values);
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar Especialidades.', 
-                dados: null
+                mensagem: `Especialidades ${esp_cod} excluido com sucesso.`, 
+                dados: excluir[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({

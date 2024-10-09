@@ -50,8 +50,8 @@ router.delete('/disponibilidade', DisponibilidadeController.apagarDisponibilidad
 
 router.get('/especialidades', EspecialidadesController.listarEspecialidades); 
 router.post('/especialidades', EspecialidadesController.cadastrarEspecialidades); 
-router.patch('/especialidades', EspecialidadesController.editarEspecialidades); 
-router.delete('/especialidades', EspecialidadesController.apagarEspecialidades); 
+router.patch('/especialidades/:esp_cod', EspecialidadesController.editarEspecialidades); 
+router.delete('/especialidades/:esp_cod', EspecialidadesController.apagarEspecialidades); 
 
 
 
