@@ -16,7 +16,7 @@ const EspecialidadesController = require('../controllers/especialidades');
 router.get('/usuarios', UsuariosController.listarUsuarios); 
 router.post('/usuarios', UsuariosController.cadastrarUsuarios); 
 router.patch('/usuarios/:usu_cod', UsuariosController.editarUsuarios); 
-router.delete('/usuarios', UsuariosController.apagarUsuarios); 
+router.delete('/usuarios/:usu_cod', UsuariosController.apagarUsuarios); 
 
 router.get('/medicos', MedicosController.listarMedicos); 
 router.post('/medicos', MedicosController.cadastrarMedicos); 
