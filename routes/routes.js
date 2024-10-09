@@ -21,7 +21,7 @@ router.delete('/usuarios', UsuariosController.apagarUsuarios);
 router.get('/medicos', MedicosController.listarMedicos); 
 router.post('/medicos', MedicosController.cadastrarMedicos); 
 router.patch('/medicos/:med_cod', MedicosController.editarMedicos); 
-router.delete('/medicos', MedicosController.apagarMedicos); 
+router.delete('/medicos/:med_cod', MedicosController.apagarMedicos); 
 
 router.get('/mensagens', MensagensController.listarMensagens); 
 router.post('/mensagens', MensagensController.cadastrarMensagens); 

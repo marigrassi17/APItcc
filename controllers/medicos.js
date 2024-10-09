@@ -51,7 +51,7 @@ module.exports = {
         try {    
             const{med_logradouro, med_numero, med_complemento, med_bairro, med_cep, esp_cod} = request.body;
             const{med_cod} = request.params;
-            const sql = `UPDATE Medico SET med_logradouro= ?, med_numero= ?, med_complemento= ?, med_bairro= ?, med_cep= ?, esp_cod = ? WERE med_cod= ?;`;
+            const sql = `UPDATE Medicos SET med_logradouro= ?, med_numero= ?, med_complemento= ?, med_bairro= ?, med_cep= ?, esp_cod = ? WHERE med_cod= ?;`;
             const values = [med_logradouro, med_numero, med_complemento, med_bairro, med_cep, esp_cod,med_cod];
             const atualizaDados = await db.query(sql,values);
             
@@ -70,11 +70,16 @@ module.exports = {
     }, 
 
     async apagarMedicos(request, response) {
-        try {            
+        try {   
+            const {med_cod} = request.params;
+            const sql = `DELETE FROM Medicos WHERE med_cod =?`;
+            const values = [med_cod];
+            const excluir = await db.query (sql, values);
+                     
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar medicos.', 
-                dados: null
+                mensagem: `Medico ${med_cod} excluido com sucesso!`, 
+                dados: excluir[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
