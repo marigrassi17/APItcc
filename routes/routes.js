@@ -20,7 +20,7 @@ router.delete('/usuarios', UsuariosController.apagarUsuarios);
 
 router.get('/medicos', MedicosController.listarMedicos); 
 router.post('/medicos', MedicosController.cadastrarMedicos); 
-router.patch('/medicos', MedicosController.editarMedicos); 
+router.patch('/medicos/:med_cod', MedicosController.editarMedicos); 
 router.delete('/medicos', MedicosController.apagarMedicos); 
 
 router.get('/mensagens', MensagensController.listarMensagens); 
