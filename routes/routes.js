@@ -40,8 +40,8 @@ router.delete('/agenda', AgendaController.apagarAgenda);
 
 router.get('/indis', IndisponibilidadeController.listarIndisponibilidade); 
 router.post('/indis', IndisponibilidadeController.cadastrarIndisponibilidade); 
-router.patch('/indis', IndisponibilidadeController.editarIndisponibilidade); 
-router.delete('/indis', IndisponibilidadeController.apagarIndisponibilidade); 
+router.patch('/indis/:ind_cod', IndisponibilidadeController.editarIndisponibilidade); 
+router.delete('/indis/:ind_cod', IndisponibilidadeController.apagarIndisponibilidade); 
 
 router.get('/disponibilidade', DisponibilidadeController.listarDisponibilidade); 
 router.post('/disponibilidade', DisponibilidadeController.cadastrarDisponibilidade); 
