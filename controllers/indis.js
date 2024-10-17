@@ -4,7 +4,7 @@ module.exports = {
     async listarIndisponibilidade(request, response) {
         try {
             
-            const sql = `SELECT ind_data, med_cod FROM Indisponibilidade;`
+            const sql = `SELECT ind_cod,ind_data, med_cod FROM Indisponibilidade;`
 
         const Indisponibilidade = await db.query(sql);
 
@@ -57,7 +57,7 @@ module.exports = {
 
             const { ind_cod } = request.params;
             
-            const sql = `UPDATE Indisponibilidades SET ind_data = ?, med_cod = ?,
+            const sql = `UPDATE Indisponibilidade SET ind_data = ?, med_cod = ?
                 WHERE ind_cod = ?;`;
 
             const values =[ind_data, med_cod,ind_cod];
@@ -79,11 +79,18 @@ module.exports = {
     }, 
 
     async apagarIndisponibilidade(request, response) {
-        try {            
+        try {       
+            const { ind_cod } = request.params;
+
+            const sql = `DELETE FROM Indisponibilidade WHERE ind_cod = ?`;
+
+            const values = [ ind_cod ];
+
+            const excluir = await db.query(sql, values);  
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar Indisponibilidade.', 
-                dados: null
+                mensagem: `Indisponibilidade ${ind_cod} excluido com sucesso`,
+                dados: excluir[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
