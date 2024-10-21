@@ -30,13 +30,13 @@ router.delete('/mensagens', MensagensController.apagarMensagens);
 
 router.get('/telefone', TelefoneController.listarTelefone); 
 router.post('/telefone', TelefoneController.cadastrarTelefone); 
-router.patch('/telefone', TelefoneController.editarTelefone); 
-router.delete('/telefone', TelefoneController.apagarTelefone); 
+router.patch('/telefone/:tel_cod', TelefoneController.editarTelefone); 
+router.delete('/telefone/:tel_cod', TelefoneController.apagarTelefone); 
 
 router.get('/agenda', AgendaController.listarAgenda); 
 router.post('/agenda', AgendaController.cadastrarAgenda); 
-router.patch('/agenda', AgendaController.editarAgenda); 
-router.delete('/agenda', AgendaController.apagarAgenda);
+router.patch('/agenda/:agd_cod', AgendaController.editarAgenda); 
+router.delete('/agenda/:agd_cod', AgendaController.apagarAgenda);
 
 router.get('/indis', IndisponibilidadeController.listarIndisponibilidade); 
 router.post('/indis', IndisponibilidadeController.cadastrarIndisponibilidade); 
