@@ -52,7 +52,7 @@ router.get('/especialidades', EspecialidadesController.listarEspecialidades);
 router.post('/especialidades', EspecialidadesController.cadastrarEspecialidades); 
 router.patch('/especialidades/:esp_cod', EspecialidadesController.editarEspecialidades); 
 router.delete('/especialidades/:esp_cod', EspecialidadesController.apagarEspecialidades); 
-router.delete('/especialidades/:esp_cod', EspecialidadesController.ocultarEspecialidade); 
+router.delete('/especialidades/:usu_ativo', EspecialidadesController.ocultarEspecialidade); 
 
 
 
