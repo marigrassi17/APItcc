@@ -5,8 +5,10 @@ module.exports = {
         try {            
             const sql = `SELECT usu_cod, usu_nome, usu_email, 
                         usu_senha, usu_dt_nasc, usu_cidade, usu_genero = 1 AS 
-                        usu_genero
-                        FROM Usuarios;`;
+                        usu_genero, usu_ativo = 1 AS usu_ativo
+                        FROM Usuarios
+                        WHERE usu_ativo = 1`;
+                        
                 
             const usuarios = await db.query(sql)    
 
@@ -92,6 +94,29 @@ module.exports = {
                 sucesso: true, 
                 mensagem: `Usuario ${usu_cod} excluido com sucesso`, 
                 dados: excluir[0].affectedRows
+            });
+        } catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: 'Erro na requisiçao.',
+                dados: error.message
+            });
+        }
+    }, 
+
+    async ocultarUsuarios(request, response) {
+        try {            
+            const usu_ativo = false  
+            const {usu_cod} = request.params;
+            const sql = `UPDATE usuarios SET usu_ativo = ?
+                         WHERE usu_cod = ?;`;
+            const values = [usu_ativo,usu_cod];
+            const atualizacao = await db.query(sql, values);
+
+            return response.status(200).json({
+                sucesso: true, 
+                mensagem: `Usuario ${usu_cod} excluido com sucesso`, 
+                dados: atualizacao[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
