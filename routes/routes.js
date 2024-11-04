@@ -4,7 +4,6 @@ const router = express.Router();
 // referência a controllers que serão utilizados nas rotas
 const UsuariosController = require('../controllers/usuarios'); 
 const MedicosController = require('../controllers/medicos'); 
-const MensagensController = require('../controllers/mensagens'); 
 const TelefoneController = require('../controllers/telefone'); 
 const AgendaController = require('../controllers/agenda'); 
 const IndisponibilidadeController = require('../controllers/indis'); 
@@ -22,12 +21,6 @@ router.get('/medicos', MedicosController.listarMedicos);
 router.post('/medicos', MedicosController.cadastrarMedicos); 
 router.patch('/medicos', MedicosController.editarMedicos); 
 router.delete('/medicos', MedicosController.apagarMedicos); 
-
-router.get('/mensagens', MensagensController.listarMensagens); 
-router.post('/mensagens', MensagensController.cadastrarMensagens); 
-router.patch('/mensagens/:men_cod', MensagensController.editarMensagens); 
-router.delete('/mensagens/:men_cod', MensagensController.apagarMensagens); 
-
 
 router.get('/telefone', TelefoneController.listarTelefone); 
 router.post('/telefone', TelefoneController.cadastrarTelefone); 
