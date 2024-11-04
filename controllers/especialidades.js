@@ -71,47 +71,5 @@ module.exports = {
         }
     }, 
 
-    async apagarEspecialidades(request, response) {
-        try {   
-            const {esp_cod} = request.params;
-            const sql = `DELETE FROM Especialidades WHERE esp_cod = ?`;
-            const values = [esp_cod];
-            const excluir = await db.query(sql, values);
 
-            return response.status(200).json({
-                sucesso: true, 
-                mensagem: `Especialidades ${esp_cod} excluido com sucesso.`, 
-                dados: excluir[0].affectedRows
-            });
-        } catch (error) {
-            return response.status(500).json({
-                sucesso: false,
-                mensagem: 'Erro na requisiçao.',
-                dados: error.message
-            });
-        }
-    }, 
-
-    async ocultarEspecialidade (request, response) {
-        try{
-            const esp_nome = false;
-            const {esp_cod} = request.params;
-            const sql = `UPDATE Especialidades SET esp_nome = ? WHERE esp_cod = ?;`;
-            const values = [esp_nome, esp_cod];
-            const atualizacao = await db.query(sql, values);
-
-            return response.status(200).json({
-                sucesso: true, 
-                mensagem: `Especialidades ${esp_cod} excluido com sucesso.`, 
-                dados: atualizacao[0].affectedRows
-            });
-        } catch (error) {
-            return response.status(500).json({
-                sucesso: false,
-                mensagem: 'Erro na requisiçao.',
-                dados: error.message
-            });
-
-        }
-    }
 };
