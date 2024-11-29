@@ -2,11 +2,16 @@ const db = require('../database/connection');
 
 module.exports = {
     async listarIndisponibilidade(request, response) {
-        try {            
+        try {
+            
+            const sql = `SELECT ind_cod,ind_data, med_cod FROM Indisponibilidade;`
+
+        const Indisponibilidade = await db.query(sql);
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de Indisponibilidade.', 
-                dados: null
+                dados: Indisponibilidade[0]
             });
         } catch (error) {
             return response.status(500).json({
@@ -18,11 +23,23 @@ module.exports = {
     }, 
 
     async cadastrarIndisponibilidade(request, response) {
-        try {            
+        try { 
+            
+            const { ind_data, med_cod } = request.body;
+
+            const sql = `INSERT INTO Indisponibilidade (ind_data, med_cod)
+                        VALUES(?,?);`;
+
+            const values =[ind_data, med_cod];
+
+            const execSql = await db.query(sql, values);
+
+            const ind_cod = execSql[0].insertId;
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastrar Indisponibilidade.', 
-                dados: null
+                dados: ind_cod
             });
         } catch (error) {
             return response.status(500).json({
@@ -34,11 +51,23 @@ module.exports = {
     }, 
 
     async editarIndisponibilidade(request, response) {
-        try {            
+        try {  
+            
+            const { ind_data, med_cod  } = request.body;
+
+            const { ind_cod } = request.params;
+            
+            const sql = `UPDATE Indisponibilidade SET ind_data = ?, med_cod = ?
+                WHERE ind_cod = ?;`;
+
+            const values =[ind_data, med_cod,ind_cod];
+
+            const atualizaDados = await db.query(sql, values);
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Editar Indisponibilidade.', 
-                dados: null
+                mensagem: `Indisponibilidade ${ind_cod} atualizado com sucesso`, 
+                dados: atualizaDados[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
@@ -50,11 +79,18 @@ module.exports = {
     }, 
 
     async apagarIndisponibilidade(request, response) {
-        try {            
+        try {       
+            const { ind_cod } = request.params;
+
+            const sql = `DELETE FROM Indisponibilidade WHERE ind_cod = ?`;
+
+            const values = [ ind_cod ];
+
+            const excluir = await db.query(sql, values);  
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar Indisponibilidade.', 
-                dados: null
+                mensagem: `Indisponibilidade ${ind_cod} excluido com sucesso`,
+                dados: excluir[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
