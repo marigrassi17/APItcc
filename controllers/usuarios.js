@@ -3,10 +3,19 @@ const db = require('../database/connection');
 module.exports = {
     async listarUsuarios(request, response) {
         try {            
+            const sql = `SELECT usu_cod, usu_nome, usu_email, 
+                        usu_senha, usu_dt_nasc, usu_cidade, usu_genero = 1 AS 
+                        usu_genero, usu_ativo = 1 AS usu_ativo
+                        FROM Usuarios
+                        WHERE usu_ativo = 1`;
+                        
+                
+            const usuarios = await db.query(sql)    
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de usuários.', 
-                dados: null
+                dados: usuarios[0]
             });
         } catch (error) {
             return response.status(500).json({
@@ -18,11 +27,25 @@ module.exports = {
     }, 
 
     async cadastrarUsuarios(request, response) {
-        try {            
+        try {   
+            
+            const {usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero} = request.body;
+
+            const sql = `INSERT INTO Usuarios 
+                         (usu_nome, usu_email, usu_senha,
+                          usu_dt_nasc, usu_cidade, usu_genero) 
+                          VALUES (?,?,?,?,?,?)`;
+
+            const values = [usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero,];             
+            
+            const execSql = await db.query(sql,values);
+
+            const usu_cod = execSql[0].insertId;
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Cadastrar Usuario.', 
-                dados: null
+                mensagem: 'Cadastro do usuario efetuado com sucesso.', 
+                dados: usu_cod
             });
         } catch (error) {
             return response.status(500).json({
@@ -34,11 +57,21 @@ module.exports = {
     }, 
 
     async editarUsuarios(request, response) {
-        try {            
+        try {
+
+            const {usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero} = request.body;
+            const {usu_cod} = request.params;
+            const sql = `UPDATE Usuarios SET usu_nome = ?, usu_email = ?, 
+                         usu_senha = ?, usu_dt_nasc = ?, usu_cidade = ?, 
+                         usu_genero = ? WHERE usu_cod = ?;`;
+
+            const values = [usu_nome, usu_email, usu_senha, usu_dt_nasc, usu_cidade, usu_genero, usu_cod];
+            const atualizaDados = await db.query(sql, values);             
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Editar Usuario', 
-                dados: null
+                mensagem: `Usuario ${usu_cod} atualizado com sucesso!`, 
+                dados: atualizaDados[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
@@ -51,10 +84,39 @@ module.exports = {
 
     async apagarUsuarios(request, response) {
         try {            
+
+            const {usu_cod} = request.params;
+            const sql = `DELETE FROM usuarios WHERE usu_cod = ?;`;
+            const values = [usu_cod];
+            const excluir = await db.query(sql, values);
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar usuarios.', 
-                dados: null
+                mensagem: `Usuario ${usu_cod} excluido com sucesso`, 
+                dados: excluir[0].affectedRows
+            });
+        } catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: 'Erro na requisiçao.',
+                dados: error.message
+            });
+        }
+    }, 
+
+    async ocultarUsuarios(request, response) {
+        try {            
+            const usu_ativo = false  
+            const {usu_cod} = request.params;
+            const sql = `UPDATE usuarios SET usu_ativo = ?
+                         WHERE usu_cod = ?;`;
+            const values = [usu_ativo,usu_cod];
+            const atualizacao = await db.query(sql, values);
+
+            return response.status(200).json({
+                sucesso: true, 
+                mensagem: `Usuario ${usu_cod} excluido com sucesso`, 
+                dados: atualizacao[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
