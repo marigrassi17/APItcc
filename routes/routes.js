@@ -4,9 +4,7 @@ const router = express.Router();
 // referência a controllers que serão utilizados nas rotas
 const UsuariosController = require('../controllers/usuarios'); 
 const MedicosController = require('../controllers/medicos'); 
-const MensagensController = require('../controllers/mensagens'); 
 const TelefoneController = require('../controllers/telefone'); 
-const AgendaController = require('../controllers/agenda'); 
 const IndisponibilidadeController = require('../controllers/indis'); 
 const DisponibilidadeController = require('../controllers/disponibilidade'); 
 const EspecialidadesController = require('../controllers/especialidades'); 
@@ -25,20 +23,10 @@ router.patch('/medicos/:med_cod', MedicosController.editarMedicos);
 router.delete('/medicos/:med_cod', MedicosController.apagarMedicos); 
 router.delete('/medicos/:med_cod', MedicosController.ocultarMedicos); 
 
-router.get('/mensagens', MensagensController.listarMensagens); 
-router.post('/mensagens', MensagensController.cadastrarMensagens); 
-router.patch('/mensagens', MensagensController.editarMensagens); 
-router.delete('/mensagens', MensagensController.apagarMensagens); 
-
 router.get('/telefone', TelefoneController.listarTelefone); 
 router.post('/telefone', TelefoneController.cadastrarTelefone); 
 router.patch('/telefone/:tel_cod', TelefoneController.editarTelefone); 
 router.delete('/telefone/:tel_cod', TelefoneController.apagarTelefone); 
-
-router.get('/agenda', AgendaController.listarAgenda); 
-router.post('/agenda', AgendaController.cadastrarAgenda); 
-router.patch('/agenda/:agd_cod', AgendaController.editarAgenda); 
-router.delete('/agenda/:agd_cod', AgendaController.apagarAgenda);
 
 router.get('/indis', IndisponibilidadeController.listarIndisponibilidade); 
 router.post('/indis', IndisponibilidadeController.cadastrarIndisponibilidade); 
