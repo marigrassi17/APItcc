@@ -17,7 +17,7 @@ router.patch('/usuarios/:usu_cod', UsuariosController.editarUsuarios);
 router.delete('/usuarios/:usu_cod', UsuariosController.apagarUsuarios);
 router.delete('/usuarios/del/:usu_cod', UsuariosController.ocultarUsuarios);  
 
-router.get('/medicos', MedicosController.listarMedicos); 
+router.post('/medicos/lista', MedicosController.listarMedicos); 
 router.post('/medicos', MedicosController.cadastrarMedicos); 
 router.patch('/medicos/:med_cod', MedicosController.editarMedicos); 
 router.delete('/medicos/:med_cod', MedicosController.apagarMedicos); 

@@ -3,10 +3,20 @@ const db = require('../database/connection');
 module.exports = {
     async listarMedicos(request, response) {
         try {
-            const sql = `SELECT
-            med_cod, med_logradouro, med_numero, med_complemento, med_bairro, med_cep, esp_cod FROM Medicos;`;
+            const { esp_cod = 0, med_cidade = '-' } = request.body;
+            const sql = esp_cod == 0 && med_cidade == '-' ?
+                `select m.med_cod, u.usu_nome, u.usu_cidade, m.med_logradouro, m.med_numero, m.med_complemento, m.med_bairro, m.med_cep, m.esp_cod, e.esp_nome  
+                    from Medicos m 
+                    INNER JOIN usuarios u ON u.usu_cod = m.med_cod 
+                    INNER JOIN especialidades e ON e.esp_cod = m.esp_cod;` :
+                `select m.med_cod, u.usu_nome, u.usu_cidade, m.med_logradouro, m.med_numero, m.med_complemento, m.med_bairro, m.med_cep, m.esp_cod, e.esp_nome  
+                    from Medicos m 
+                    INNER JOIN usuarios u ON u.usu_cod = m.med_cod 
+                    INNER JOIN especialidades e ON e.esp_cod = m.esp_cod 
+                    WHERE m.esp_cod = ? AND u.usu_cidade = ?;`;
+            const dados = esp_cod == 0 && med_cidade == '-' ? [] : [esp_cod, med_cidade];
 
-            const Medicos = await db.query(sql);
+            const Medicos = await db.query(sql, dados);
 
             return response.status(200).json({
                 sucesso: true,
@@ -94,7 +104,7 @@ module.exports = {
     async ocultarMedicos(request, response) {
         try {
             const usu_ativo = false;
-            const {use_id} = reuqest.params;
+            const { use_id } = reuqest.params;
             const sql = `UPDATE medicos SET usu_ativo =? WHERE usu_ativo =?`;
             const values = [usu_ativo, usu_id];
             const atualizacao = await db.query(sql, values);
